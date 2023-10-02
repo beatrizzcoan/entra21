@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatos</title>
+    <link rel="stylesheet" href="promise.css">
+</head>
+<body>
+    <div id="cat-card">
+        <img id="cat-image" src="" alt="Imagem de um gato">
+        <p id="cat-id">ID: </p>
+    </div>
+
+    <button id="cat-button">Próxima foto</button>
+
+    <script>
+ 
+        function fetchImage() {
+            fetch('https://api.thecatapi.com/v1/images/search')
+                .then(response => response.json())
+                .then(data => {
+                    const catCard = document.getElementById('cat-card');
+                    const catImage = document.getElementById('cat-image');
+                    const catId = document.getElementById('cat-id');
+
+                    catImage.src = data[0].url;
+                    catId.textContent = `ID: ${data[0].id}`;
+
+                    catCard.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Imagem de gato não encontrada', error);
+                });
+        }
+
+        const CatButton = document.getElementById('cat-button');
+        CatButton.addEventListener('click', fetchImage);
+    </script>
+</body>
+</html>
