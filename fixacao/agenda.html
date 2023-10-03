@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title><link href="agenda.css" rel="stylesheet">
+</head>
+<body onload="consultar()">
+    <h1>Agenda</h1>
+    <div class="container">
+        <div class="mt-3">
+            <label class="form-label" for="nome">Informe nome</label>
+
+            <input type="text" placeholder="Informe nome" id="nome" class="form-control">
+        </div>
+
+        <div class="mt-3">
+            <label class="form-label" for="sobreNome">Informe sobrenome</label>
+
+            <input type="text" placeholder="Informe sobrenome" id="sobreNome" class="form-control">
+        </div>
+        <div class="mt-3">
+            <button id="salvar" class="btn btn-outline-primary" onclick="gravar()">Gravar</button>
+            <button id="editar" class="btn btn-outline-success" onclick="confirmaEditar()" disabled>Editar</button>
+        </div>
+
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                  </tbody>
+            </table>
+        </div>
+        <div>
+            <p>Total de Contatos: <span id="total-contatos">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let contatos = [
+                {
+                    nome: 'Maria',
+                    sobrenome: ' das dores'
+                },
+                {
+                    nome: 'José',
+                    sobrenome: ' da Silva'
+                }
+        ]
+
+        let contatoEditar = {}
+
+        function gravar(){
+             let inputNome = document.getElementById("nome")
+
+             let inputSobreNome = document.getElementById("sobreNome")
+            
+            let novoContato = {
+                nome: inputNome.value ,
+                sobrenome: inputSobreNome.value
+            }
+            contatos.push(novoContato) 
+            consultar()          
+        }
+
+        function consultar(){
+            let itens = ''
+            for(let i = 0; i < contatos.length; i++){
+               itens += `<tr>
+                            <td>${contatos[i].nome}</td>
+                            <td>${contatos[i].sobrenome}</td>
+                            <td><button class='btn btn-outline-primary' onclick=editar('${i}')>Editar</button></td>
+                            <td><button class='btn btn-danger' onclick=excluir('${i}')>Excluir</button></td>
+                      </tr>`
+            }
+            document.getElementsByTagName('tbody')[0].innerHTML = itens
+        }
+
+        function editar(item){
+            //seleciona o contato do array
+            contatoEditar = contatos[item] 
+
+            //mostra os valores no formulario
+            document.getElementById("nome").value = contatoEditar.nome
+            document.getElementById("sobreNome").value = contatoEditar.sobrenome
+
+            //desabilita botoes
+            document.getElementById('salvar').setAttribute('disabled','true')
+            document.getElementById('editar').removeAttribute('disabled')
+        }
+
+        function confirmaEditar(){
+             //recebe os valores no formulario
+             contatoEditar.nome = document.getElementById("nome").value 
+             contatoEditar.sobrenome = document.getElementById("sobreNome").value 
+
+            //desabilita botoes
+            document.getElementById('editar').setAttribute('disabled','true')
+            document.getElementById('salvar').removeAttribute('disabled')
+
+            //atualiza dados na tabela
+            consultar()
+        }
+
+        function excluir(item){
+            contatos.splice(item,1)
+            consultar()
+        }
+
+        function atualizarTotalContatos() {
+            const totalContatosSpan = document.getElementById('total-contatos');
+            totalContatosSpan.textContent = contatos.length;
+        }
+    </script>
+</body>
+</html>
