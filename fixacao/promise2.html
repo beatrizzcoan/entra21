@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatos</title>
+    <link rel="stylesheet" href="promise2.css">
+</head>
+<body>
+    <div id="cat-images"></div>
+
+    <script>
+
+        function fetchImages() {
+            const catImagesDiv = document.getElementById('cat-images');
+
+            fetch('https://api.thecatapi.com/v1/images/search?limit=10')
+                .then(response => response.json())
+                .then(data => {
+                    const catImages = data.map(cat => {
+                        return `<img src="${cat.url}" alt="Gato">`;
+                    }).join('');
+
+                    catImagesDiv.innerHTML = catImages;
+                })
+                .catch(error => {
+                    console.error('Imagem de gato não encontrada', error);
+                });
+        }
+
+        window.onload = fetchImages;
+    </script>
+</body>
+</html>
