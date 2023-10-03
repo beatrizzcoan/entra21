@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenação de Números</title>
+    <link rel="stylesheet" href="ordenar.css">
+</head>
+<body>
+    <h1>Ordenação de Números</h1>
+    <div>
+        <label for="numero">Digite um número:</label>
+        <input type="number" id="numero">
+        <button onclick="adicionarNumero()">Adicionar</button>
+    </div>
+    <div>
+        <button onclick="ordenarNumeros()">Mostrar em Ordem Crescente</button>
+    </div>
+    <div id="resultado"></div>
+
+    <div>
+        <label for="buscar">Informe um número:</label>
+        <input type="number" id="buscar">
+        <button onclick="buscarNumero()">Buscar</button>
+    </div>
+    <div>
+        <label for="ordem">Ordem:</label>
+        <select id="ordem">
+            <option value="crescente">Crescente</option>
+            <option value="decrescente">Decrescente</option>
+            <option value="inserida">Ordem Inserida</option>
+        </select>
+        <button onclick="ordenarNumeros()">Ordenar</button>
+    </div>
+    <div>
+        <label for="remover">Remover um número:</label>
+        <input type="number" id="remover">
+        <button onclick="manipularNumero(removerNumero)">Remover</button>
+    </div>
+    <div>
+        <label for="substituirNumero">Substituir número:</label>
+        <input type="number" id="substituirNumero">
+        <label for="novoNumero">por:</label>
+        <input type="number" id="novoNumero">
+        <button onclick="manipularNumero(substituirNumero)">Substituir</button>
+    </div>
+
+    <script>
+        const numeros = [];
+
+        function adicionarNumero() {
+            const inputNumero = document.getElementById('numero');
+            const numero = parseInt(inputNumero.value);
+
+            if (!isNaN(numero)) {
+                numeros.push(numero);
+                inputNumero.value = '';
+            }
+        }
+
+        function ordenarNumeros() {
+            const resultadoDiv = document.getElementById('resultado');
+            const ordem = document.getElementById('ordem').value;
+            const numerosOrdenados = [...numeros];
+
+            if (ordem === 'crescente') {
+                numerosOrdenados.sort((a, b) => a - b);
+            } else if (ordem === 'decrescente') {
+                numerosOrdenados.sort((a, b) => b - a);
+            } // Se a ordem for "inserida", manteremos a ordem original.
+
+            resultadoDiv.innerHTML = `Números em ordem ${ordem}: ${numerosOrdenados.join(', ')}`;
+        }
+
+        function buscarNumero() {
+            const inputBuscar = document.getElementById('buscar');
+            const numeroBuscar = parseInt(inputBuscar.value);
+            const index = numeros.indexOf(numeroBuscar);
+            if (index !== -1) {
+                alert(`O número ${numeroBuscar} está na posição ${index} do array.`);
+            } else {
+                alert(`O número ${numeroBuscar} não foi encontrado no array.`);
+            }
+            inputBuscar.value = '';
+        }
+
+        function manipularNumero(acao) {
+            const inputNumero = document.getElementById(acao === removerNumero ? 'remover' : 'substituirNumero');
+            const numero = parseInt(inputNumero.value);
+
+            if (!isNaN(numero)) {
+                acao(numero);
+                inputNumero.value = '';
+            }
+        }
+
+        function removerNumero(numero) {
+            const index = numeros.indexOf(numero);
+            if (index !== -1) {
+                numeros.splice(index, 1);
+            }
+        }
+
+        function substituirNumero(novoNumero) {
+            const inputNovoNumero = document.getElementById('novoNumero');
+            const numeroSubstituir = parseInt(document.getElementById('substituirNumero').value);
+            const index = numeros.indexOf(numeroSubstituir);
+
+            if (index !== -1) {
+                numeros[index] = novoNumero;
+            }
+            inputNovoNumero.value = '';
+        }
+    </script>
+</body>
+</html>
