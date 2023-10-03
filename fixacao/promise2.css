@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: gray;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#cat-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+img {
+    max-width: 250px;
+    height: 250px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    margin: 5px;
+}
